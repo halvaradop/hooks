@@ -1,0 +1,29 @@
+{
+  "name": "@halvaradop/hooks",
+  "version": "0.1.0",
+  "description": "Library of React hooks for various utilities and functionalities.",
+  "type": "module",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halvaradop/hooks.git"
+  },
+  "keywords": [
+    "React",
+    "hooks",
+    "utilities",
+    "custom hooks"
+  ],
+  "author": "Hernan Alvarado <hernanvid123@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/halvaradop/hooks#readme",
+  "bugs": {
+    "email": "hernanvid123@gmail.com",
+    "url": "https://github.com/halvaradop/hooks/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {},
+  "packageManager": "pnpm@10.11.1"
+}
