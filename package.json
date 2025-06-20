@@ -4,6 +4,8 @@
   "description": "Library of React hooks for various utilities and functionalities.",
   "type": "module",
   "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
@@ -32,6 +34,7 @@
   "devDependencies": {
     "@types/node": "^24.0.3",
     "prettier": "^3.5.3",
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
   "prettier": {
