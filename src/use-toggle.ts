@@ -13,7 +13,7 @@ export const useToggle = (initial: boolean = false): [boolean, (value: boolean) 
     const [toggled, setToggled] = useState(initial)
 
     const handleToggle = (value: boolean) => {
-        setToggled(value)
+        setToggled((previous) => (value ? value : !previous))
     }
 
     return [toggled, handleToggle]
