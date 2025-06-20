@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "Library of React hooks for various utilities and functionalities.",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/halvaradop/hooks.git"
@@ -28,6 +31,25 @@
   "packageManager": "pnpm@10.11.1",
   "devDependencies": {
     "@types/node": "^24.0.3",
+    "prettier": "^3.5.3",
     "typescript": "^5.8.3"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "printWidth": 130,
+    "semi": false,
+    "overrides": [
+      {
+        "files": [
+          "*.json",
+          "*.md",
+          "*.yml",
+          "*.yaml"
+        ],
+        "options": {
+          "tabWidth": 2
+        }
+      }
+    ]
   }
 }

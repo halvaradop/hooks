@@ -1,0 +1,24 @@
+# Artifacts
+node_modules
+.next
+dist
+out
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+build
+
+# Dependency directories
+jspm_packages
+
+# Files
+.DS_Store
+.env
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
