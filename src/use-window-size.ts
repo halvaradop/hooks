@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useLayoutEffect, useState } from "react"
 
 /**
  * Represents the size of the window with width and height properties.
@@ -22,7 +22,7 @@ export const useWindowSize = (): WindowSize => {
         height: 0,
     })
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const handleResize = () => {
             setWindowSize({
                 width: window.innerWidth,
