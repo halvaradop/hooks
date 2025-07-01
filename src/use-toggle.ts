@@ -12,8 +12,8 @@ import { useState } from "react"
 export const useToggle = (initial: boolean = false): [boolean, (value: boolean) => void] => {
     const [toggled, setToggled] = useState(initial)
 
-    const handleToggle = (value: boolean) => {
-        setToggled((previous) => (value ? value : !previous))
+    const handleToggle = (value?: boolean) => {
+        setToggled((previous) => value ?? !previous)
     }
 
     return [toggled, handleToggle]
