@@ -12,9 +12,9 @@ import { useState } from "react"
 export const useToggle = (initial: boolean = false): [boolean, (value: boolean) => void] => {
     const [toggled, setToggled] = useState(initial)
 
-    const handleToggle = (value?: boolean) => {
+    const toggle = (value?: boolean) => {
         setToggled((previous) => value ?? !previous)
     }
 
-    return [toggled, handleToggle]
+    return [toggled, toggle]
 }
