@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react"
 /**
  * Return type for the `useBroadcastChannel` hook.
  */
-type BroadcastChannelReturn<T> = [T | undefined, (message: T) => void]
+type BroadcastChannelReturn<T> = [T | undefined, (message: T) => void, VoidFunction, boolean]
 
 /**
  * `useBroadcastChannel` is a React hook that provides a way to communicate between different tabs or windows of
@@ -30,6 +30,14 @@ export const useBroadcastChannel = <T>(name: string, initialValue?: T): Broadcas
         [name, isSupported],
     )
 
+    const closeChannel = useCallback(() => {
+        if (broadcastChannel.current) {
+            broadcastChannel.current.close()
+            broadcastChannel.current = undefined
+            setState(undefined)
+        }
+    }, [])
+
     useEffect(() => {
         if (!isSupported) return
         broadcastChannel.current ??= new BroadcastChannel(name)
@@ -47,5 +55,5 @@ export const useBroadcastChannel = <T>(name: string, initialValue?: T): Broadcas
         }
     }, [])
 
-    return [state, sendMessage]
+    return [state, sendMessage, closeChannel, isSupported]
 }
