@@ -4,7 +4,13 @@ import { type DependencyList, RefObject, useEffect, useRef } from "react"
  * Represents the target element to which the event listener will be attached.
  * This can be a `Window`, `Document`, or any `HTMLElement`.
  */
-type EventTarget = Window | Document | HTMLElement
+type EventTarget = Window | Document | HTMLElement | null
+
+/**
+ * Represents a target that can be a `Window`, `Document`, `HTMLElement`, from `EventTarget`.
+ * or a `RefObject` object
+ */
+type EventTargetWithRef = EventTarget | RefObject<unknown>
 
 /**
  * Maps event types to their corresponding event objects for different event sources.
@@ -15,7 +21,11 @@ type EventMap<EventSource> = EventSource extends Window
       ? DocumentEventMap
       : EventSource extends HTMLElement
         ? HTMLElementEventMap
-        : Record<string, Event>
+        : EventSource extends RefObject<infer Element | null | undefined>
+          ? Element extends HTMLElement
+              ? HTMLElementEventMap
+              : never
+          : never
 
 /**
  * Options for the event listener, which can include `capture`, `once`, `passive`, and `deps`.
@@ -25,19 +35,27 @@ export interface EventListenerOptions {
     deps?: DependencyList
 }
 
-type TargetRef<T> = T | (() => T) | RefObject<T>
+type TargetRef<T> = T | (() => T)
 
 /**
  * Resolves the target element from the provided input.
  *
- * @param {EventTarget | (() => EventTarget) | RefObject<EventTarget>} target - The target element to which the event listener will be attached. This can be a `Window`, `Document`, or any `HTMLElement`. It can also be a function that returns the target or a React ref object.
+ * @param {TargetRef<EventTargetWithRef>} target - The target element to which the event listener will be attached. This can be a `Window`, `Document`, or any `HTMLElement`. It can also be a function that returns the target or a React ref object.
  * @returns {EventTarget} - Returns the resolved target element. If the target is a function, it calls the function to get the target. If it's a ref object, it returns the `current` property of the ref. Otherwise, it returns the target directly.
  */
-const getTarget = (target: EventTarget | (() => EventTarget) | RefObject<EventTarget>): EventTarget => {
+const getTarget = (target: TargetRef<EventTargetWithRef>): EventTarget => {
+    if (!target) return null
     if (target instanceof Function) {
-        return target()
+        const value = target()
+        if (value && typeof value === "object" && "current" in value) {
+            return value.current as EventTarget
+        }
+        return value
     }
-    return "current" in target ? target.current : target
+    if (target && typeof target === "object" && "current" in target) {
+        return target.current as EventTarget
+    }
+    return target
 }
 
 /**
@@ -56,7 +74,7 @@ const getTarget = (target: EventTarget | (() => EventTarget) | RefObject<EventTa
  *  useEventListener(document, "click", handleClick)
  * }
  */
-export const useEventListener = <T extends EventTarget, K extends keyof EventMap<T>>(
+export const useEventListener = <T extends EventTargetWithRef, K extends keyof EventMap<T>>(
     target: TargetRef<T>,
     type: K,
     event: (this: T, ev: EventMap<T>[K]) => any,
@@ -65,7 +83,6 @@ export const useEventListener = <T extends EventTarget, K extends keyof EventMap
     const callbackRef = useRef<Function>(event)
     const { options: eventOptions } = options
     const isSupported = typeof window !== "undefined" && typeof target !== "undefined"
-    const resolvedTarget = getTarget(target)
 
     useEffect(() => {
         callbackRef.current = event
@@ -73,13 +90,12 @@ export const useEventListener = <T extends EventTarget, K extends keyof EventMap
 
     useEffect(() => {
         if (!isSupported) return
+        const get = getTarget(target)
+        if (!get) return
 
-        const eventListener = (ev: EventMap<T>[K]) => {
-            callbackRef.current.call(resolvedTarget, ev)
-        }
+        const eventListener = (ev: Event) => callbackRef.current(ev)
+        get.addEventListener(type as string, eventListener as any, eventOptions)
 
-        resolvedTarget.addEventListener(type as string, eventListener as any, eventOptions)
-
-        return () => resolvedTarget.removeEventListener(type as string, eventListener as any, eventOptions)
-    }, [resolvedTarget, type, eventOptions])
+        return () => document.removeEventListener(type as string, eventListener as any, eventOptions)
+    }, [type, eventOptions])
 }
