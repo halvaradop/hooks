@@ -1,23 +1,23 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useWindowEventListener } from "@/use-window-event-listener"
 
 export const useOnlineStatus = () => {
-    const [isOnline, setIsOnline] = useState(true)
+    const isSupported = typeof window !== "undefined" && typeof window.navigator !== "undefined"
+    const [isOnline, setIsOnline] = useState(false)
+
+    const updateOnlineStatus = useCallback(() => {
+        if (!isSupported) return
+        setIsOnline(navigator.onLine)
+    }, [isSupported])
 
     useEffect(() => {
-        const updateOnlineStatus = () => {
-            setIsOnline(navigator.onLine)
-        }
-
+        if (!isSupported) return
         updateOnlineStatus()
-        window.addEventListener("online", updateOnlineStatus)
-        window.addEventListener("offline", updateOnlineStatus)
+    }, [isSupported, updateOnlineStatus])
 
-        return () => {
-            window.removeEventListener("online", updateOnlineStatus)
-            window.removeEventListener("offline", updateOnlineStatus)
-        }
-    }, [])
+    useWindowEventListener("offline", updateOnlineStatus)
+    useWindowEventListener("online", updateOnlineStatus)
 
     return isOnline
 }

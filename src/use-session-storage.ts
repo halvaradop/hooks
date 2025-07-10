@@ -1,5 +1,7 @@
 "use client"
 import { useState, useCallback, useEffect } from "react"
+import { useWindowEventListener } from "@/use-window-event-listener"
+
 /**
  * Default serializer for `useSessionStorage` hook
  */
@@ -62,14 +64,11 @@ export const useSessionStorage = <T>(key: string, initialValue?: T, options: Use
 
     const { withEvent = false, serializer = defaultSerializer } = options
     const { serialize, deserialize } = serializer
-
-    const isBrowser = useCallback((): boolean => {
-        return typeof window !== "undefined" && typeof window.sessionStorage !== "undefined"
-    }, [])
+    const isSupported = typeof window !== "undefined" && typeof sessionStorage !== "undefined"
 
     const setValue: UseSessionStorageReturn<T>["setValue"] = useCallback(
         (value) => {
-            if (!isBrowser()) return
+            if (!isSupported) return
             setStorage((previous) => {
                 const valueToStore = value instanceof Function ? value(previous) : value
                 const storageValue = serialize(valueToStore)
@@ -81,7 +80,7 @@ export const useSessionStorage = <T>(key: string, initialValue?: T, options: Use
     )
 
     const getStorage = useCallback(() => {
-        if (!isBrowser()) return
+        if (!isSupported) return
         const getItem = sessionStorage.getItem(key)
         const storageValue = getItem ? deserialize(getItem) : initialValue
         sessionStorage.setItem(key, serialize(storageValue))
@@ -92,26 +91,23 @@ export const useSessionStorage = <T>(key: string, initialValue?: T, options: Use
     const removeItem: UseSessionStorageReturn<T>["removeItem"] = useCallback(() => {
         setStorage(() => undefined)
         sessionStorage.removeItem(key)
-    }, [key, isBrowser])
+    }, [key, isSupported])
 
     useEffect(() => {
         getStorage()
     }, [key, serializer])
 
-    useEffect(() => {
-        if (!withEvent || !isBrowser()) return
-
-        const syncStorage = (event: StorageEvent) => {
+    useWindowEventListener(
+        "storage",
+        (event: StorageEvent) => {
             const { key, newValue } = event
             if (event.key === key) {
                 const newContextValue = newValue ? deserialize(newValue) : undefined
                 setStorage(newContextValue)
             }
-        }
-
-        window.addEventListener("storage", syncStorage)
-        return () => window.removeEventListener("storage", syncStorage)
-    }, [key, serializer, withEvent, isBrowser])
+        },
+        { deps: [serializer, key, withEvent, isSupported], enabled: withEvent && isSupported },
+    )
 
     return [storage, setValue, removeItem]
 }
