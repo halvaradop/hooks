@@ -42,14 +42,14 @@ export const useBroadcastChannel = <T>(name: string, initialValue?: T): Broadcas
         if (!isSupported) return
         broadcastChannel.current ??= new BroadcastChannel(name)
 
-        const syncBroadcast = (event: MessageEvent) => {
+        const handleBroadcastMessage = (event: MessageEvent) => {
             setState(event.data)
         }
 
-        broadcastChannel.current.addEventListener("message", syncBroadcast)
+        broadcastChannel.current.addEventListener("message", handleBroadcastMessage)
 
         return () => {
-            broadcastChannel.current?.removeEventListener("message", syncBroadcast)
+            broadcastChannel.current?.removeEventListener("message", handleBroadcastMessage)
             broadcastChannel.current?.close()
             setState(undefined)
         }

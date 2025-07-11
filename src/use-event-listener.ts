@@ -33,6 +33,7 @@ type EventMap<EventSource> = EventSource extends Window
 export interface EventListenerOptions {
     options?: boolean | AddEventListenerOptions
     deps?: DependencyList
+    enabled?: boolean | (() => boolean)
 }
 
 type TargetRef<T> = T | (() => T)
@@ -77,25 +78,25 @@ const getTarget = (target: TargetRef<EventTargetWithRef>): EventTarget => {
 export const useEventListener = <T extends EventTargetWithRef, K extends keyof EventMap<T>>(
     target: TargetRef<T>,
     type: K,
-    event: (this: T, ev: EventMap<T>[K]) => any,
+    handler: (this: T, ev: EventMap<T>[K]) => any,
     options: EventListenerOptions = {},
 ) => {
-    const callbackRef = useRef<Function>(event)
-    const { options: eventOptions } = options
-    const isSupported = typeof window !== "undefined" && typeof target !== "undefined"
+    const callbackRef = useRef<Function>(handler)
+    const { options: eventOptions, deps = [], enabled = false } = options
 
     useEffect(() => {
-        callbackRef.current = event
-    }, [event])
+        callbackRef.current = handler
+    }, [handler])
 
     useEffect(() => {
-        if (!isSupported) return
+        const isEnabled = enabled instanceof Function ? enabled() : enabled
+        if (!isEnabled) return
         const get = getTarget(target)
         if (!get) return
 
-        const eventListener = (ev: Event) => callbackRef.current(ev)
-        get.addEventListener(type as string, eventListener as any, eventOptions)
+        const handleListener = (ev: Event) => callbackRef.current(ev)
+        get.addEventListener(type as string, handleListener, eventOptions)
 
-        return () => document.removeEventListener(type as string, eventListener as any, eventOptions)
-    }, [type, eventOptions])
+        return () => get.removeEventListener(type as string, handleListener, eventOptions)
+    }, [type, target, eventOptions, enabled, ...deps])
 }

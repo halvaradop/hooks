@@ -26,19 +26,21 @@ export type MediaQuery = Query | `(${Query})`
  */
 export const useMediaQuery = (mediaQuery: MediaQuery): boolean => {
     const [isMatched, setIsMatched] = useState(false)
+    const isSupported = typeof window !== "undefined" && typeof mediaQuery === "string"
 
     useEffect(() => {
+        if (!isSupported) return
         const mediaQueryList = window.matchMedia(mediaQuery)
 
-        const updateMatch = (event: MediaQueryListEvent) => {
+        const handleMediaQuery = (event: MediaQueryListEvent) => {
             setIsMatched(event.matches)
         }
 
         setIsMatched(mediaQueryList.matches)
-        mediaQueryList.addEventListener("change", updateMatch)
+        mediaQueryList.addEventListener("change", handleMediaQuery)
 
-        return () => mediaQueryList.removeEventListener("change", updateMatch)
-    }, [isMatched])
+        return () => mediaQueryList.removeEventListener("change", handleMediaQuery)
+    }, [mediaQuery])
 
     return isMatched
 }
