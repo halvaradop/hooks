@@ -1,9 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
-import type { MediaComparator, MediaConstraint, MediaCSSUnit } from "./types.js"
-
-type Query = `${MediaConstraint}${MediaComparator}${number}${MediaCSSUnit}`
-export type MediaQuery = Query | `(${Query})`
+import type { UseMediaQuery } from "@/types/css-types"
 
 /**
  * useMediaQuery is a React hook that determines if a given media query matches the current viewport.
@@ -24,7 +21,7 @@ export type MediaQuery = Query | `(${Query})`
  * @example
  * const isLargeScreen = useMediaQuery("(min-width: 1024px)");
  */
-export const useMediaQuery = (mediaQuery: MediaQuery): boolean => {
+export const useMediaQuery: UseMediaQuery = (mediaQuery) => {
     const [isMatched, setIsMatched] = useState(false)
     const isSupported = typeof window !== "undefined" && typeof mediaQuery === "string"
 

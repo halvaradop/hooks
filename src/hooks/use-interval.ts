@@ -1,22 +1,27 @@
 "use client"
 import { useEffect, useRef } from "react"
+import type { UseInterval } from "@/types"
 
 /**
  * `useInterval` is a custom hook that sets up an interval to call a callback function at specified intervals.
  *
  * @param {VoidFunction} callback - The function to be called at each interval.
- * @param {number | null} delay - The interval delay in milliseconds. If null, the interval is not set.
+ * @param {number | undefined | null} delay - The interval delay in milliseconds. If null, the interval is not set.
  * @example
- * useInterval(() => {
- *   console.log("This will run every 1000ms");
- * }, 1000);
+ * const MyComponent = () => {
+ *   useInterval(() => {
+ *     console.log("This will run every 1000ms");
+ *   }, 1000);
+ * }
  *
- * const [isActive, setIsActive] = useState(true);
- * useInterval(() => {
- *   console.log("This will run every 1000ms only if isActive is true");
- * }, isActive ? 1000 : null);
+ * const MyComponentWithNoDelay = () => {
+ *   const [isActive, setIsActive] = useState(true);
+ *   useInterval(() => {
+ *     console.log("This will run every 1000ms only if isActive is true");
+ *   }, isActive ? 1000 : null);
+ * }
  */
-export const useInterval = (callback: VoidFunction, delay: number | null) => {
+export const useInterval: UseInterval = (callback, delay): void => {
     const callbackRef = useRef<VoidFunction>(callback)
 
     useEffect(() => {

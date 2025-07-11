@@ -1,12 +1,5 @@
-import { useLayoutEffect, useState } from "react"
-
-/**
- * Represents the size of the window with width and height properties.
- */
-interface WindowSize {
-    width: number
-    height: number
-}
+import { useState, useLayoutEffect } from "react"
+import type { WindowSize } from "@/types/hook-types"
 
 /**
  * Gets the current window size of the browser window giving the width and height values,
@@ -14,7 +7,17 @@ interface WindowSize {
  *
  * @returns {WindowSize} - The current window size.
  * @example
- * const { width, height } = useWindowSize();
+ * const MyComponent = () => {
+ *   const { width, height } = useWindowSize();
+ *
+ *   // Use width and height to render responsive components or styles
+ *   return (
+ *     <div>
+ *       <p>Width: {width}px</p>
+ *       <p>Height: {height}px</p>
+ *     </div>
+ *   )
+ * }
  */
 export const useWindowSize = (): WindowSize => {
     const [windowSize, setWindowSize] = useState<WindowSize>({

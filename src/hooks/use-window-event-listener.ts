@@ -1,4 +1,5 @@
-import { useEventListener, type EventListenerOptions } from "@/use-event-listener"
+import { useEventListener } from "@/hooks/use-event-listener"
+import type { EventListenerOptions } from "@/types/event-types"
 
 /**
  * `useWindowEventListener` is a React hook that provides a convenient way to add event listeners to the window object.
