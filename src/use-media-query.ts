@@ -32,14 +32,14 @@ export const useMediaQuery = (mediaQuery: MediaQuery): boolean => {
         if (!isSupported) return
         const mediaQueryList = window.matchMedia(mediaQuery)
 
-        const updateMatch = (event: MediaQueryListEvent) => {
+        const handleMediaQuery = (event: MediaQueryListEvent) => {
             setIsMatched(event.matches)
         }
 
         setIsMatched(mediaQueryList.matches)
-        mediaQueryList.addEventListener("change", updateMatch)
+        mediaQueryList.addEventListener("change", handleMediaQuery)
 
-        return () => mediaQueryList.removeEventListener("change", updateMatch)
+        return () => mediaQueryList.removeEventListener("change", handleMediaQuery)
     }, [mediaQuery])
 
     return isMatched

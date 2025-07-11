@@ -93,12 +93,7 @@ export const useSessionStorage = <T>(key: string, initialValue?: T, options: Use
         sessionStorage.removeItem(key)
     }, [key, isSupported])
 
-    useEffect(() => {
-        getStorage()
-    }, [key, serializer])
-
-    useWindowEventListener(
-        "storage",
+    const handlestorage = useCallback(
         (event: StorageEvent) => {
             const { key, newValue } = event
             if (event.key === key) {
@@ -106,8 +101,17 @@ export const useSessionStorage = <T>(key: string, initialValue?: T, options: Use
                 setStorage(newContextValue)
             }
         },
-        { deps: [serializer, key, withEvent, isSupported], enabled: withEvent && isSupported },
+        [key, deserialize],
     )
+
+    useEffect(() => {
+        getStorage()
+    }, [key, serializer])
+
+    useWindowEventListener("storage", handlestorage, {
+        deps: [serializer, key, withEvent, isSupported],
+        enabled: withEvent && isSupported,
+    })
 
     return [storage, setValue, removeItem]
 }

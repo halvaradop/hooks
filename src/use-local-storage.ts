@@ -93,12 +93,7 @@ export const useLocalStorage = <T>(key: string, initialValue?: T, options: UseLo
         localStorage.removeItem(key)
     }, [key, isSupported])
 
-    useEffect(() => {
-        getStorage()
-    }, [key, serializer])
-
-    useWindowEventListener(
-        "storage",
+    const handleStorage = useCallback(
         (event: StorageEvent) => {
             const { key, newValue } = event
             if (event.key === key) {
@@ -106,8 +101,17 @@ export const useLocalStorage = <T>(key: string, initialValue?: T, options: UseLo
                 setStorage(newContextValue)
             }
         },
-        { deps: [serializer, key, withEvent, isSupported], enabled: withEvent && isSupported },
+        [key, deserialize],
     )
+
+    useEffect(() => {
+        getStorage()
+    }, [key, serializer])
+
+    useWindowEventListener("storage", handleStorage, {
+        deps: [serializer, key, withEvent, isSupported],
+        enabled: withEvent && isSupported,
+    })
 
     return [storage, setValue, removeItem] as const
 }

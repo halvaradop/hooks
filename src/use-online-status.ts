@@ -6,18 +6,18 @@ export const useOnlineStatus = () => {
     const isSupported = typeof window !== "undefined" && typeof window.navigator !== "undefined"
     const [isOnline, setIsOnline] = useState(false)
 
-    const updateOnlineStatus = useCallback(() => {
+    const handleOnlineStatus = useCallback(() => {
         if (!isSupported) return
         setIsOnline(navigator.onLine)
     }, [isSupported])
 
     useEffect(() => {
         if (!isSupported) return
-        updateOnlineStatus()
-    }, [isSupported, updateOnlineStatus])
+        handleOnlineStatus()
+    }, [isSupported, handleOnlineStatus])
 
-    useWindowEventListener("offline", updateOnlineStatus)
-    useWindowEventListener("online", updateOnlineStatus)
+    useWindowEventListener("offline", handleOnlineStatus)
+    useWindowEventListener("online", handleOnlineStatus)
 
     return isOnline
 }
