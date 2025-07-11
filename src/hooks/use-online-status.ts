@@ -2,6 +2,23 @@
 import { useState, useEffect, useCallback } from "react"
 import { useWindowEventListener } from "@/hooks/use-window-event-listener"
 
+/**
+ * `useOnlineStatus` is a React hook that provides the online status of the browser.
+ * It listens to the `online` and `offline` events to update the status.
+ *
+ * @returns {boolean} - Returns the online status of the browser.
+ * @example
+ * const MyComponent = () => {
+ *   const isOnline = useOnlineStatus();
+ *
+ *   // Use isOnline to conditionally render components or show messages
+ *   if (isOnline) {
+ *     console.log("You are online");
+ *   } else {
+ *     console.log("You are offline");
+ *   }
+ * }
+ */
 export const useOnlineStatus = (): boolean => {
     const isSupported = typeof window !== "undefined" && typeof window.navigator !== "undefined"
     const [isOnline, setIsOnline] = useState(false)

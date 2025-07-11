@@ -10,7 +10,16 @@ import type { BroadcastChannelReturn } from "@/types/hook-types"
  * @param {T} initialValue - The initial value to set in the channel
  * @returns {BroadcastChannelReturn<T>} - An array containing the current state and a function to send messages
  * @example
- * const [message, sendMessage] = useBroadcastChannel<string>("my-channel", "Hello World");
+ * const [message, sendMessage, closeChannel] = useBroadcastChannel<string>("my-channel", "Hello World");
+ *
+ * // Logs the initial value "Hello World"
+ * console.log(message);
+ *
+ * // To send a message
+ * sendMessage("New message");
+ *
+ * // To close the channel
+ * closeChannel();
  */
 export const useBroadcastChannel = <T>(name: string, initialValue?: T): BroadcastChannelReturn<T> => {
     const [state, setState] = useState<T | undefined>(initialValue)

@@ -24,6 +24,7 @@ const getTarget = (target: TargetRef<EventTargetWithRef>): EventTarget => {
 
 /**
  * `useEventListener` is a React hook that allows you to add an event listener to a target element.
+ * This hook is implemented by `useWindowEventListener` and `useDocumentEventListener` hooks.
  *
  * @param {EventTarget} target - The target element to which the event listener will be attached. This can be a `Window`, `Document`, or any `HTMLElement`.
  * @param {keyof EventMap<EventTarget>} type - The type of event to listen for, such as `"click"`, `"keydown"`, etc. This should be a key of the `EventMap` corresponding to the target.
@@ -31,9 +32,9 @@ const getTarget = (target: TargetRef<EventTargetWithRef>): EventTarget => {
  * @param {EventListenerOptions} options - Optional configuration for the event listener. It can include options like `capture`, `once`, `passive`, and `signal`. The `deps` property can be used to specify dependencies for the effect.
  * @example
  * const MyComponent = () => {
- *  const handleClick = (event) => {
- *      console.log("Element clicked:", event.target);
- *  };
+ *   const handleClick = (event) => {
+ *     console.log("Element clicked:", event.target);
+ *   };
  *
  *  useEventListener(document, "click", handleClick)
  * }

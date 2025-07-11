@@ -8,7 +8,20 @@ import type { UseToggle } from "@/types/hook-types"
  * @param {boolean} initial - Initial state of the toggle, defaults to false.
  * @returns {boolean} - Returns the current toggle state and a function to update it.
  * @example
- * const [isToggled, toggle] = useToggle();
+ * const MyComponent = () => {
+ *   const [isToggled, toggle] = useToggle();
+ *
+ *   return (
+ *     <section>
+ *       <button onClick={() => toggle()}>Toggle</button>
+ *       <p>{isToggled ? "On" : "Off"}</p>
+ *       <div>
+ *         <button onClick={() => toggle(true)}>Set On</button>
+ *         <button onClick={() => toggle(false)}>Set Off</button>
+ *       </div>
+ *     </section>
+ *   )
+ * }
  */
 export const useToggle: UseToggle = (initial = false) => {
     const [toggled, setToggled] = useState(initial)
