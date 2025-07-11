@@ -1,5 +1,5 @@
 import type { RefObject } from "react"
-import { useDocumentEventListener } from "@/use-document-event-listener"
+import { useDocumentEventListener } from "@/hooks/use-document-event-listener"
 
 export const useOnClickOutside = <T extends HTMLElement>(target: RefObject<T>, handler: (event: MouseEvent) => void) => {
     const handleClickOutside = (event: MouseEvent) => {

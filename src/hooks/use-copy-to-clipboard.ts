@@ -1,10 +1,6 @@
 "use client"
-import { useCallback, useState } from "react"
-
-interface UseCopyToClipboardReturn {
-    copyText: string | undefined
-    copyToClipboard: (text: string) => Promise<boolean>
-}
+import { useState, useCallback } from "react"
+import type { UseCopyToClipboardReturn } from "@/types/hook-types"
 
 /**
  * `useCopyToClipboard` is a React hook that provides functionality to copy text to the clipboard.
@@ -23,13 +19,13 @@ interface UseCopyToClipboardReturn {
  *   }
  * };
  */
-export const useCopyToClipboard = () => {
-    const [copyText, setCopyText] = useState<UseCopyToClipboardReturn["copyText"]>(undefined)
+export const useCopyToClipboard = (): UseCopyToClipboardReturn => {
+    const [copyText, setCopyText] = useState<string | undefined>(undefined)
 
     const isSupported =
         typeof window !== "undefined" && typeof navigator !== "undefined" && typeof navigator.clipboard !== "undefined"
 
-    const copyToClipboard: UseCopyToClipboardReturn["copyToClipboard"] = useCallback(
+    const copyToClipboard = useCallback(
         async (text: string) => {
             if (!isSupported) return false
             try {
@@ -45,5 +41,5 @@ export const useCopyToClipboard = () => {
         [isSupported],
     )
 
-    return [copyText, copyToClipboard] as const
+    return [copyText, copyToClipboard]
 }

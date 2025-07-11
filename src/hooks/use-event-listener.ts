@@ -1,42 +1,5 @@
-import { type DependencyList, RefObject, useEffect, useRef } from "react"
-
-/**
- * Represents the target element to which the event listener will be attached.
- * This can be a `Window`, `Document`, or any `HTMLElement`.
- */
-type EventTarget = Window | Document | HTMLElement | null
-
-/**
- * Represents a target that can be a `Window`, `Document`, `HTMLElement`, from `EventTarget`.
- * or a `RefObject` object
- */
-type EventTargetWithRef = EventTarget | RefObject<unknown>
-
-/**
- * Maps event types to their corresponding event objects for different event sources.
- */
-type EventMap<EventSource> = EventSource extends Window
-    ? WindowEventMap
-    : EventSource extends Document
-      ? DocumentEventMap
-      : EventSource extends HTMLElement
-        ? HTMLElementEventMap
-        : EventSource extends RefObject<infer Element | null | undefined>
-          ? Element extends HTMLElement
-              ? HTMLElementEventMap
-              : never
-          : never
-
-/**
- * Options for the event listener, which can include `capture`, `once`, `passive`, and `deps`.
- */
-export interface EventListenerOptions {
-    options?: boolean | AddEventListenerOptions
-    deps?: DependencyList
-    enabled?: boolean | (() => boolean)
-}
-
-type TargetRef<T> = T | (() => T)
+import { useEffect, useRef } from "react"
+import type { EventTarget, EventTargetWithRef, EventMap, EventListenerOptions, TargetRef } from "@/types/event-types"
 
 /**
  * Resolves the target element from the provided input.
@@ -80,7 +43,7 @@ export const useEventListener = <T extends EventTargetWithRef, K extends keyof E
     type: K,
     handler: (this: T, ev: EventMap<T>[K]) => any,
     options: EventListenerOptions = {},
-) => {
+): void => {
     const callbackRef = useRef<Function>(handler)
     const { options: eventOptions, deps = [], enabled = false } = options
 

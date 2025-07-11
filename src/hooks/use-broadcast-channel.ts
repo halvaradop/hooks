@@ -1,10 +1,6 @@
 "use client"
 import { useState, useEffect, useRef, useCallback } from "react"
-
-/**
- * Return type for the `useBroadcastChannel` hook.
- */
-type BroadcastChannelReturn<T> = [T | undefined, (message: T) => void, VoidFunction, boolean]
+import type { BroadcastChannelReturn } from "@/types/hook-types"
 
 /**
  * `useBroadcastChannel` is a React hook that provides a way to communicate between different tabs or windows of

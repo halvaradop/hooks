@@ -1,40 +1,14 @@
 "use client"
-import { useState, useCallback, useEffect } from "react"
-import { useWindowEventListener } from "@/use-window-event-listener"
+import { useState, useEffect, useCallback } from "react"
+import { useWindowEventListener } from "@/hooks/use-window-event-listener"
+import type { StorageSerializer, UseLocalStorageReturn, UseStorageOptions } from "@/types/storage-types"
 
 /**
- * Default serializer for `useLocalStorage` hook
+ * Default JSON serializer implementation for storage hooks
  */
-export const defaultSerializer = {
+export const defaultSerializer: StorageSerializer<any> = {
     serialize: JSON.stringify,
     deserialize: JSON.parse,
-}
-
-/**
- * Options for the third argument of `useLocalStorage` hook
- * - `serializer`: Custom serializer for the value stored in localStorage.
- * - `withEvent`: If true, the hook will listen to the `storage` event
- *   to synchronize the value across different tabs or windows.
- *   This is useful when the localStorage is modified in another tab.
- */
-interface UseLocalStorageOptions<T> {
-    serializer?: {
-        serialize: (value: T) => string
-        deserialize: (value: string) => T
-    }
-    withEvent?: boolean
-}
-
-/**
- * Return type of `useLocalStorage` hook
- * - `storage`: The current value stored in localStorage.
- * - `setValue`: Function to set a new value in localStorage.
- * - `removeItem`: Function to remove the item from localStorage.
- */
-interface UseLocalStorageReturn<T> {
-    storage: T | undefined
-    setValue: (value: T | ((previous: undefined | T) => T)) => void
-    removeItem: () => void
 }
 
 /**
@@ -43,11 +17,12 @@ interface UseLocalStorageReturn<T> {
  *
  * @param {string} key - The key under which the value is stored in localStorage.
  * @param {T} initialValue - The initial value to be stored in localStorage. If not provided, it defaults to `undefined`.
- * @param {UseLocalStorageOptions<T>} options - Options for customizing the behavior of the hook.
+ * @param {UseStorageOptions<T>} options - Options for customizing the behavior of the hook.
  * @example
  * const [value, setValue, removeItem] = useLocalStorage("myKey", "defaultValue", {
  *     withEvent: true,
  *     serializer: {
+ *         // by default, it uses JSON.stringify and JSON.parse
  *         serialize: (value) => JSON.stringify(value),
  *         deserialize: (value) => JSON.parse(value),
  *     },
@@ -59,15 +34,19 @@ interface UseLocalStorageReturn<T> {
  * // Removes the item from localStorage and updates the state
  * removeItem();
  */
-export const useLocalStorage = <T>(key: string, initialValue?: T, options: UseLocalStorageOptions<T> = {}) => {
+export const useLocalStorage = <T>(
+    key: string,
+    initialValue?: T,
+    options: UseStorageOptions<T> = {},
+): UseLocalStorageReturn<T> => {
     const [storage, setStorage] = useState<T | undefined>(initialValue)
 
     const { withEvent = false, serializer = defaultSerializer } = options
     const { serialize, deserialize } = serializer
     const isSupported = typeof window !== "undefined" && typeof localStorage !== "undefined"
 
-    const setValue: UseLocalStorageReturn<T>["setValue"] = useCallback(
-        (value) => {
+    const setValue = useCallback(
+        (value: T | ((previous: undefined | T) => T)) => {
             if (!isSupported) return
             setStorage((previous) => {
                 const valueToStore = value instanceof Function ? value(previous) : value
@@ -88,7 +67,7 @@ export const useLocalStorage = <T>(key: string, initialValue?: T, options: UseLo
         return storageValue
     }, [key, initialValue, serializer])
 
-    const removeItem: UseLocalStorageReturn<T>["removeItem"] = useCallback(() => {
+    const removeItem = useCallback(() => {
         setStorage(() => undefined)
         localStorage.removeItem(key)
     }, [key, isSupported])
@@ -113,5 +92,5 @@ export const useLocalStorage = <T>(key: string, initialValue?: T, options: UseLo
         enabled: withEvent && isSupported,
     })
 
-    return [storage, setValue, removeItem] as const
+    return [storage, setValue, removeItem]
 }

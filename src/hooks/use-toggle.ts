@@ -1,15 +1,16 @@
 "use client"
 import { useState } from "react"
+import type { UseToggle } from "@/types/hook-types"
 
 /**
  * useToggle is a React hook that manages a boolean toggle state.
  *
  * @param {boolean} initial - Initial state of the toggle, defaults to false.
- * @returns {Function} - Returns the current toggle state and a function to update it.
+ * @returns {boolean} - Returns the current toggle state and a function to update it.
  * @example
  * const [isToggled, toggle] = useToggle();
  */
-export const useToggle = (initial: boolean = false): [boolean, (value: boolean) => void] => {
+export const useToggle: UseToggle = (initial = false) => {
     const [toggled, setToggled] = useState(initial)
 
     const toggle = (value?: boolean) => {

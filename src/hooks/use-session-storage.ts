@@ -1,40 +1,14 @@
 "use client"
-import { useState, useCallback, useEffect } from "react"
-import { useWindowEventListener } from "@/use-window-event-listener"
+import { useState, useEffect, useCallback } from "react"
+import { useWindowEventListener } from "@/hooks/use-window-event-listener"
+import type { StorageSerializer, UseSessionStorageReturn, UseStorageOptions } from "@/types/storage-types"
 
 /**
- * Default serializer for `useSessionStorage` hook
+ * Default JSON serializer implementation for storage hooks
  */
-export const defaultSerializer = {
+export const defaultSerializer: StorageSerializer<any> = {
     serialize: JSON.stringify,
     deserialize: JSON.parse,
-}
-
-/**
- * Options for the third argument of `useSessionStorage` hook
- * - `serializer`: Custom serializer for the value stored in sessionStorage.
- * - `withEvent`: If true, the hook will listen to the `storage` event
- *   to synchronize the value across different tabs or windows.
- *   This is useful when the sessionStorage is modified in another tab.
- */
-interface UseSessionStorageOptions<T> {
-    serializer?: {
-        serialize: (value: T) => string
-        deserialize: (value: string) => T
-    }
-    withEvent?: boolean
-}
-
-/**
- * Return type of `useSessionStorage` hook
- * - `storage`: The current value stored in sessionStorage.
- * - `setValue`: Function to set a new value in sessionStorage.
- * - `removeItem`: Function to remove the item from sessionStorage.
- */
-interface UseSessionStorageReturn<T> {
-    storage: T | undefined
-    setValue: (value: T | ((previous: undefined | T) => T)) => void
-    removeItem: () => void
 }
 
 /**
@@ -43,7 +17,7 @@ interface UseSessionStorageReturn<T> {
  *
  * @param {string} key - The key under which the value is stored in sessionStorage.
  * @param {T} initialValue - The initial value to be stored in sessionStorage. If not provided, it defaults to `undefined`.
- * @param {UseSessionStorageOptions<T>} options - Options for customizing the behavior of the hook.
+ * @param {UseStorageOptions<T>} options - Options for customizing the behavior of the hook.
  * @example
  * const [value, setValue, removeItem] = useSessionStorage("myKey", "defaultValue", {
  *     withEvent: true,
@@ -59,15 +33,19 @@ interface UseSessionStorageReturn<T> {
  * // Removes the item from sessionStorage and updates the state
  * removeItem();
  */
-export const useSessionStorage = <T>(key: string, initialValue?: T, options: UseSessionStorageOptions<T> = {}) => {
+export const useSessionStorage = <T>(
+    key: string,
+    initialValue?: T,
+    options: UseStorageOptions<T> = {},
+): UseSessionStorageReturn<T> => {
     const [storage, setStorage] = useState<T | undefined>(initialValue)
 
     const { withEvent = false, serializer = defaultSerializer } = options
     const { serialize, deserialize } = serializer
     const isSupported = typeof window !== "undefined" && typeof sessionStorage !== "undefined"
 
-    const setValue: UseSessionStorageReturn<T>["setValue"] = useCallback(
-        (value) => {
+    const setValue = useCallback(
+        (value: T | ((previous: undefined | T) => T)) => {
             if (!isSupported) return
             setStorage((previous) => {
                 const valueToStore = value instanceof Function ? value(previous) : value
@@ -88,7 +66,7 @@ export const useSessionStorage = <T>(key: string, initialValue?: T, options: Use
         return storageValue
     }, [key, initialValue, serializer])
 
-    const removeItem: UseSessionStorageReturn<T>["removeItem"] = useCallback(() => {
+    const removeItem = useCallback(() => {
         setStorage(() => undefined)
         sessionStorage.removeItem(key)
     }, [key, isSupported])

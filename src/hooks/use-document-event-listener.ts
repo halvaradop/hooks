@@ -1,4 +1,5 @@
-import { useEventListener, type EventListenerOptions } from "@/use-event-listener"
+import { useEventListener } from "@/hooks/use-event-listener"
+import type { EventListenerOptions } from "@/types/event-types"
 
 /**
  * `useDocumentEventListener` is a React hook that provides a convenient way to add event listeners to the document object.

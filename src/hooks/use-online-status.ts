@@ -1,8 +1,8 @@
 "use client"
-import { useCallback, useEffect, useState } from "react"
-import { useWindowEventListener } from "@/use-window-event-listener"
+import { useState, useEffect, useCallback } from "react"
+import { useWindowEventListener } from "@/hooks/use-window-event-listener"
 
-export const useOnlineStatus = () => {
+export const useOnlineStatus = (): boolean => {
     const isSupported = typeof window !== "undefined" && typeof window.navigator !== "undefined"
     const [isOnline, setIsOnline] = useState(false)
 
