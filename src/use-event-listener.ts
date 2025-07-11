@@ -78,15 +78,15 @@ const getTarget = (target: TargetRef<EventTargetWithRef>): EventTarget => {
 export const useEventListener = <T extends EventTargetWithRef, K extends keyof EventMap<T>>(
     target: TargetRef<T>,
     type: K,
-    event: (this: T, ev: EventMap<T>[K]) => any,
+    handler: (this: T, ev: EventMap<T>[K]) => any,
     options: EventListenerOptions = {},
 ) => {
-    const callbackRef = useRef<Function>(event)
+    const callbackRef = useRef<Function>(handler)
     const { options: eventOptions, deps = [], enabled = false } = options
 
     useEffect(() => {
-        callbackRef.current = event
-    }, [event])
+        callbackRef.current = handler
+    }, [handler])
 
     useEffect(() => {
         const isEnabled = enabled instanceof Function ? enabled() : enabled
