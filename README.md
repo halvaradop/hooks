@@ -375,24 +375,6 @@ function ToggleExample() {
 }
 ```
 
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-```bash
-# Clone the repository
-git clone https://github.com/halvaradop/hooks.git
-
-# Install dependencies
-pnpm install
-
-# Start development
-pnpm dev
-
-# Build the package
-pnpm build
-```
-
 ## Contributing
 
 We welcome contributions to `@halvaradop/hooks`! If you have an idea for a new type or find an improvement to an existing one, please feel free to open an issue or create a pull request. We offer a guide on how to contribute to the project and the necessary steps to do so. Here's how you can contribute, Read our [Contribuing Guideline](https://github.com/halvaradop/.github/blob/master/.github/CONTRIBUTING.md).
