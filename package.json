@@ -32,74 +32,74 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js",
+      "require": "./dist/hooks/index.cjs"
     },
     "./use-broadcast-channel": {
-      "types": "./dist/use-broadcast-channel.d.ts",
-      "import": "./dist/use-broadcast-channel.js",
-      "require": "./dist/use-broadcast-channel.cjs"
+      "types": "./dist/hooks/use-broadcast-channel.d.ts",
+      "import": "./dist/hooks/use-broadcast-channel.js",
+      "require": "./dist/hooks/use-broadcast-channel.cjs"
     },
     "./use-copy-to-clipboard": {
-      "types": "./dist/use-copy-to-clipboard.d.ts",
-      "import": "./dist/use-copy-to-clipboard.js",
-      "require": "./dist/use-copy-to-clipboard.cjs"
+      "types": "./dist/hooks/use-copy-to-clipboard.d.ts",
+      "import": "./dist/hooks/use-copy-to-clipboard.js",
+      "require": "./dist/hooks/use-copy-to-clipboard.cjs"
     },
     "./use-document-event-listener": {
-      "types": "./dist/use-document-event-listener.d.ts",
-      "import": "./dist/use-document-event-listener.js",
-      "require": "./dist/use-document-event-listener.cjs"
+      "types": "./dist/hooks/use-document-event-listener.d.ts",
+      "import": "./dist/hooks/use-document-event-listener.js",
+      "require": "./dist/hooks/use-document-event-listener.cjs"
     },
     "./use-event-listener": {
-      "types": "./dist/use-event-listener.d.ts",
-      "import": "./dist/use-event-listener.js",
-      "require": "./dist/use-event-listener.cjs"
+      "types": "./dist/hooks/use-event-listener.d.ts",
+      "import": "./dist/hooks/use-event-listener.js",
+      "require": "./dist/hooks/use-event-listener.cjs"
     },
     "./use-interval": {
-      "types": "./dist/use-interval.d.ts",
-      "import": "./dist/use-interval.js",
-      "require": "./dist/use-interval.cjs"
+      "types": "./dist/hooks/use-interval.d.ts",
+      "import": "./dist/hooks/use-interval.js",
+      "require": "./dist/hooks/use-interval.cjs"
     },
     "./use-local-storage": {
-      "types": "./dist/use-local-storage.d.ts",
-      "import": "./dist/use-local-storage.js",
-      "require": "./dist/use-local-storage.cjs"
+      "types": "./dist/hooks/use-local-storage.d.ts",
+      "import": "./dist/hooks/use-local-storage.js",
+      "require": "./dist/hooks/use-local-storage.cjs"
     },
     "./use-media-query": {
-      "types": "./dist/use-media-query.d.ts",
-      "import": "./dist/use-media-query.js",
-      "require": "./dist/use-media-query.cjs"
+      "types": "./dist/hooks/use-media-query.d.ts",
+      "import": "./dist/hooks/use-media-query.js",
+      "require": "./dist/hooks/use-media-query.cjs"
     },
     "./use-on-click-outside": {
-      "types": "./dist/use-on-click-outside.d.ts",
-      "import": "./dist/use-on-click-outside.js",
-      "require": "./dist/use-on-click-outside.cjs"
+      "types": "./dist/hooks/use-on-click-outside.d.ts",
+      "import": "./dist/hooks/use-on-click-outside.js",
+      "require": "./dist/hooks/use-on-click-outside.cjs"
     },
     "./use-online-status": {
-      "types": "./dist/use-online-status.d.ts",
-      "import": "./dist/use-online-status.js",
-      "require": "./dist/use-online-status.cjs"
+      "types": "./dist/hooks/use-online-status.d.ts",
+      "import": "./dist/hooks/use-online-status.js",
+      "require": "./dist/hooks/use-online-status.cjs"
     },
     "./use-session-storage": {
-      "types": "./dist/use-session-storage.d.ts",
-      "import": "./dist/use-session-storage.js",
-      "require": "./dist/use-session-storage.cjs"
+      "types": "./dist/hooks/use-session-storage.d.ts",
+      "import": "./dist/hooks/use-session-storage.js",
+      "require": "./dist/hooks/use-session-storage.cjs"
     },
     "./use-toggle": {
-      "types": "./dist/use-toggle.d.ts",
-      "import": "./dist/use-toggle.js",
-      "require": "./dist/use-toggle.cjs"
+      "types": "./dist/hooks/use-toggle.d.ts",
+      "import": "./dist/hooks/use-toggle.js",
+      "require": "./dist/hooks/use-toggle.cjs"
     },
     "./use-window-event-listener": {
-      "types": "./dist/use-window-event-listener.d.ts",
-      "import": "./dist/use-window-event-listener.js",
-      "require": "./dist/use-window-event-listener.cjs"
+      "types": "./dist/hooks/use-window-event-listener.d.ts",
+      "import": "./dist/hooks/use-window-event-listener.js",
+      "require": "./dist/hooks/use-window-event-listener.cjs"
     },
     "./use-window-size": {
-      "types": "./dist/use-window-size.d.ts",
-      "import": "./dist/use-window-size.js",
-      "require": "./dist/use-window-size.cjs"
+      "types": "./dist/hooks/use-window-size.d.ts",
+      "import": "./dist/hooks/use-window-size.js",
+      "require": "./dist/hooks/use-window-size.cjs"
     }
   },
   "packageManager": "pnpm@10.11.1",
@@ -126,7 +126,7 @@
         "files": [
           "*.json",
           "*.md",
-          "*.yml",
+          "*.yhooks/ml",
           "*.yaml"
         ],
         "options": {
