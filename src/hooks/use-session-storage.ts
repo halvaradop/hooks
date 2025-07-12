@@ -6,7 +6,7 @@ import type { StorageSerializer, UseSessionStorageReturn, UseStorageOptions } fr
 /**
  * Default JSON serializer implementation for storage hooks
  */
-export const defaultSerializer: StorageSerializer<any> = {
+const defaultSerializer: StorageSerializer<any> = {
     serialize: JSON.stringify,
     deserialize: JSON.parse,
 }
