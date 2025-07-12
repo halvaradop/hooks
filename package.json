@@ -126,7 +126,7 @@
         "files": [
           "*.json",
           "*.md",
-          "*.yhooks/ml",
+          "*.yml",
           "*.yaml"
         ],
         "options": {
