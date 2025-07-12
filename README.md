@@ -11,9 +11,8 @@ A comprehensive collection of reusable React hooks designed to simplify common p
 - [Installation](#installation)
 - [Available Hooks](#available-hooks)
 - [Usage Examples](#usage-examples)
-- [Advanced Usage](#advanced-usage)
 - [Contributing](#contributing)
-- [License](#license)
+- [Code of Conduct](#code-of-conduct)
 
 ## Installation
 
