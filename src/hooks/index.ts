@@ -1,5 +1,6 @@
 export * from "./use-broadcast-channel"
 export * from "./use-copy-to-clipboard"
+export * from "./use-debounce"
 export * from "./use-document-event-listener"
 export * from "./use-event-listener"
 export * from "./use-interval"
