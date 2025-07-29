@@ -53,6 +53,7 @@ pnpm add @halvaradop/hooks
 ### Timing
 
 - [`useInterval`](#useinterval) - Declarative intervals
+- [`useTimeout`](#usetimeout) - Declarative timeouts
 
 ## Usage Examples
 
@@ -256,6 +257,43 @@ function Timer() {
       <p>Count: {count}</p>
       <button onClick={() => setIsRunning(!isRunning)}>{isRunning ? "Pause" : "Start"}</button>
       <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  )
+}
+```
+
+### useTimeout
+
+Set up timeouts with automatic cleanup and pause/resume functionality.
+
+```tsx
+import { useTimeout } from "@halvaradop/hooks"
+import { useState } from "react"
+
+function DelayedMessage() {
+  const [message, setMessage] = useState("")
+  const [isActive, setIsActive] = useState(false)
+
+  useTimeout(
+    () => {
+      setMessage("This message appeared after 3 seconds!")
+    },
+    isActive ? 3000 : null, // Pass null to pause
+  )
+
+  return (
+    <div>
+      <button
+        onClick={() => {
+          setIsActive(!isActive)
+          if (!isActive) {
+            setMessage("") // Clear message when starting
+          }
+        }}
+      >
+        {isActive ? "Cancel" : "Start"} Timeout
+      </button>
+      {message && <p>{message}</p>}
     </div>
   )
 }

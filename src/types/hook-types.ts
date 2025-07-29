@@ -32,3 +32,5 @@ export interface WindowSize {
     width: number
     height: number
 }
+
+export type UseTimeout = (callback: VoidFunction, delay?: number | null) => void
