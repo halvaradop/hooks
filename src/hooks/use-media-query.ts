@@ -36,7 +36,9 @@ export const useMediaQuery: UseMediaQuery = (mediaQuery) => {
         setIsMatched(mediaQueryList.matches)
         mediaQueryList.addEventListener("change", handleMediaQuery)
 
-        return () => mediaQueryList.removeEventListener("change", handleMediaQuery)
+        return () => {
+            mediaQueryList.removeEventListener("change", handleMediaQuery)
+        }
     }, [mediaQuery])
 
     return isMatched

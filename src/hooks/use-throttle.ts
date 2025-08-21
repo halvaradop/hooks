@@ -35,7 +35,7 @@ export const useThrottle = <T>(value: T, delay: number = 300) => {
             setThrottledValue(value)
             lastExecuted.current = now
         } else {
-            if (timeoutRef.current) clearTimeout(timeoutRef.current)
+            if (timeoutRef.current !== null) clearTimeout(timeoutRef.current)
             timeoutRef.current = setTimeout(() => {
                 setThrottledValue(value)
                 lastExecuted.current = Date.now()
@@ -43,7 +43,7 @@ export const useThrottle = <T>(value: T, delay: number = 300) => {
         }
 
         return () => {
-            if (timeoutRef.current) {
+            if (timeoutRef.current !== null) {
                 clearTimeout(timeoutRef.current)
             }
         }

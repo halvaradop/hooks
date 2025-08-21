@@ -32,15 +32,14 @@ export const useBroadcastChannel = <T>(name: string, initialValue?: T): Broadcas
             broadcastChannel.current?.postMessage(message)
             setState(message)
         },
-        [name, isSupported],
+        [isSupported],
     )
 
     const closeChannel = useCallback(() => {
-        if (broadcastChannel.current) {
-            broadcastChannel.current.close()
-            broadcastChannel.current = undefined
-            setState(undefined)
-        }
+        if (broadcastChannel.current == null) return
+        broadcastChannel.current.close()
+        broadcastChannel.current = undefined
+        setState(undefined)
     }, [])
 
     useEffect(() => {
@@ -58,7 +57,7 @@ export const useBroadcastChannel = <T>(name: string, initialValue?: T): Broadcas
             broadcastChannel.current?.close()
             setState(undefined)
         }
-    }, [])
+    }, [name, isSupported])
 
     return [state, sendMessage, closeChannel, isSupported]
 }

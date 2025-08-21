@@ -19,9 +19,12 @@ import { useDocumentEventListener } from "@/hooks/use-document-event-listener"
  *   return <div ref={ref}>Click outside this element</div>;
  * }
  */
-export const useOnClickOutside = <T extends HTMLElement>(target: RefObject<T>, handler: (event: MouseEvent) => void) => {
+export const useOnClickOutside = <T extends HTMLElement>(
+    target: RefObject<T>,
+    handler: (event: MouseEvent) => void,
+) => {
     const handleClickOutside = (event: MouseEvent) => {
-        if (target.current && !target.current.contains(event.target as Node)) {
+        if (!target.current.contains(event.target as Node)) {
             handler(event)
         }
     }
