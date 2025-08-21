@@ -6,17 +6,31 @@ on:
       - master
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+
+      - uses: pnpm/action-setup@v4
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+
   build:
     runs-on: ubuntu-latest
     environment: Development
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "18.x"
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm build

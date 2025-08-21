@@ -6,7 +6,7 @@ import type { StorageSerializer, UseLocalStorageReturn, UseStorageOptions } from
 /**
  * Default JSON serializer implementation for storage hooks
  */
-const defaultSerializer: StorageSerializer<any> = {
+const defaultSerializer: StorageSerializer<string> = {
     serialize: JSON.stringify,
     deserialize: JSON.parse,
 }
@@ -50,7 +50,7 @@ export const useLocalStorage = <T>(
             if (!isSupported) return
             setStorage((previous) => {
                 const valueToStore = value instanceof Function ? value(previous) : value
-                const storageValue = serialize(valueToStore)
+                const storageValue = serialize(valueToStore as T as never)
                 localStorage.setItem(key, storageValue)
                 return valueToStore
             })
@@ -60,14 +60,21 @@ export const useLocalStorage = <T>(
 
     const getStorage = useCallback(() => {
         if (!isSupported) return
-        const getItem = localStorage.getItem(key)
-        const storageValue = getItem ? deserialize(getItem) : initialValue
-        localStorage.setItem(key, serialize(storageValue))
-        setStorage(storageValue)
+        const getItem = sessionStorage.getItem(key)
+        let storageValue: T | unknown
+        if (getItem !== null && getItem !== "") {
+            storageValue = deserialize(getItem)
+        } else {
+            storageValue = initialValue
+        }
+        if (storageValue === undefined) return
+        sessionStorage.setItem(key, serialize(storageValue as T as never))
+        setStorage(storageValue as T as never)
         return storageValue
     }, [key, initialValue, serializer])
 
     const removeItem = useCallback(() => {
+        if (!isSupported) return
         setStorage(() => undefined)
         localStorage.removeItem(key)
     }, [key, isSupported])
@@ -76,7 +83,10 @@ export const useLocalStorage = <T>(
         (event: StorageEvent) => {
             const { key, newValue } = event
             if (event.key === key) {
-                const newContextValue = newValue ? deserialize(newValue) : undefined
+                let newContextValue: T | undefined = undefined
+                if (newValue !== null && newValue !== "") {
+                    newContextValue = deserialize(newValue) as never
+                }
                 setStorage(newContextValue)
             }
         },

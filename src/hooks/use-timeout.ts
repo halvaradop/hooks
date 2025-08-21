@@ -21,6 +21,8 @@ export const useTimeout: UseTimeout = (callback, delay) => {
         const defaultTime = delay ?? 0
         const idle = setTimeout(callbackRef.current, defaultTime)
 
-        return () => clearTimeout(idle)
+        return () => {
+            clearTimeout(idle)
+        }
     }, [delay])
 }
