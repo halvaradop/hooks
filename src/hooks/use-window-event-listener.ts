@@ -65,5 +65,5 @@ export const useWindowEventListener = <K extends keyof WindowEventMap>(
 ) => {
     const isSupported = typeof window !== "undefined" && typeof window.addEventListener === "function"
     if (!isSupported) return () => {}
-    return useEventListener(window, type, handler, options)
+    useEventListener(window, type, handler, options)
 }

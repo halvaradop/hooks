@@ -61,6 +61,8 @@ export const useEventListener = <T extends EventTargetWithRef, K extends keyof E
         const handleListener = (ev: Event) => callbackRef.current(ev)
         get.addEventListener(type as string, handleListener, eventOptions)
 
-        return () => get.removeEventListener(type as string, handleListener, eventOptions)
+        return () => {
+            get.removeEventListener(type as string, handleListener, eventOptions)
+        }
     }, [type, target, eventOptions, enabled, ...deps])
 }
