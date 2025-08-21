@@ -1,6 +1,6 @@
 {
   "name": "@halvaradop/hooks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Library of React hooks for various utilities and functionalities.",
   "type": "module",
   "scripts": {
@@ -48,6 +48,11 @@
       "import": "./dist/hooks/use-copy-to-clipboard.js",
       "require": "./dist/hooks/use-copy-to-clipboard.cjs"
     },
+    "./use-debounce": {
+      "types": "./dist/use-debounce.d.ts",
+      "import": "./dist/use-debounce.js",
+      "require": "./dist/use-debounce.cjs"
+    },
     "./use-document-event-listener": {
       "types": "./dist/hooks/use-document-event-listener.d.ts",
       "import": "./dist/hooks/use-document-event-listener.js",
@@ -87,6 +92,16 @@
       "types": "./dist/hooks/use-session-storage.d.ts",
       "import": "./dist/hooks/use-session-storage.js",
       "require": "./dist/hooks/use-session-storage.cjs"
+    },
+    "./use-throttle": {
+      "types": "./dist/use-throttle.d.ts",
+      "import": "./dist/use-throttle.js",
+      "require": "./dist/use-throttle.cjs"
+    },
+    "./use-timeout": {
+      "types": "./dist/use-timeout.d.ts",
+      "import": "./dist/use-timeout.js",
+      "require": "./dist/use-timeout.cjs"
     },
     "./use-toggle": {
       "types": "./dist/hooks/use-toggle.d.ts",
