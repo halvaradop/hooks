@@ -1,24 +1,50 @@
-# Artifacts
-node_modules
-.next
-dist
-out
+# Dependencies
+node_modules/
+**/node_modules/
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Build outputs
+dist/
+build/
+out/
+**/dist/
+**/build/
+**/out/
 
-# Build output
-build
-
-# Dependency directories
-jspm_packages
-
-# Files
-.DS_Store
-.env
+# Package manager files
 pnpm-lock.yaml
-package-lock.json
 yarn.lock
+package-lock.json
 
+# Generated files
+*.generated.*
+**/*.generated.*
+
+# Cache and temporary files
+.cache/
+**/.cache/
+*.tmp
+*.temp
+**/*.tmp
+**/*.temp
+
+# Misc
+*.DS_Store
+*.env
+
+# Coverage
+coverage
+
+# turborepo
+.turbo
+*storybook.log
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Storybook build outputs
+out/
+storybook-static
+storybook-static-*
