@@ -108,6 +108,7 @@
   "devDependencies": {
     "@eslint/js": "^9.33.0",
     "@halvaradop/eslint-config": "^1.0.0",
+    "@halvaradop/prettier-config": "^1.1.0",
     "@types/node": "^24.0.3",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
@@ -130,23 +131,5 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
-  },
-  "prettier": {
-    "tabWidth": 4,
-    "printWidth": 130,
-    "semi": false,
-    "overrides": [
-      {
-        "files": [
-          "*.json",
-          "*.md",
-          "*.yml",
-          "*.yaml"
-        ],
-        "options": {
-          "tabWidth": 2
-        }
-      }
-    ]
   }
 }

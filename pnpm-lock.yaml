@@ -14,6 +14,9 @@ importers:
       '@halvaradop/eslint-config':
         specifier: ^1.0.0
         version: 1.0.0
+      '@halvaradop/prettier-config':
+        specifier: ^1.1.0
+        version: 1.1.0(prettier@3.5.3)
       '@types/node':
         specifier: ^24.0.3
         version: 24.0.3
@@ -261,6 +264,11 @@ packages:
 
   '@halvaradop/eslint-config@1.0.0':
     resolution: {integrity: sha512-jkceubYfLC8uOlVqMUGHTzw+CMWHV5xwpFwvwN+KEl/qq3hx60GVSSz35I3GrncUtAlfZoUMajFuXFnWz7Le3w==}
+
+  '@halvaradop/prettier-config@1.1.0':
+    resolution: {integrity: sha512-0zefBhXc9K1AELuUVm6mcCnvunrTjxuZN9yGBFatvmy6TthyotxVTwYFYvW03rhKF6J8OPBAe2gbzM6srIOsKw==}
+    peerDependencies:
+      prettier: ^2.0.0
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1811,6 +1819,10 @@ snapshots:
       levn: 0.4.1
 
   '@halvaradop/eslint-config@1.0.0': {}
+
+  '@halvaradop/prettier-config@1.1.0(prettier@3.5.3)':
+    dependencies:
+      prettier: 3.5.3
 
   '@humanfs/core@0.19.1': {}
 
