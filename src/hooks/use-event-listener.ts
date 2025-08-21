@@ -8,15 +8,15 @@ import type { EventTarget, EventTargetWithRef, EventMap, EventListenerOptions, T
  * @returns {EventTarget} - Returns the resolved target element. If the target is a function, it calls the function to get the target. If it's a ref object, it returns the `current` property of the ref. Otherwise, it returns the target directly.
  */
 const getTarget = (target: TargetRef<EventTargetWithRef>): EventTarget => {
-    if (!target) return null
+    if (target === null) return null
     if (target instanceof Function) {
         const value = target()
-        if (value && typeof value === "object" && "current" in value) {
+        if (value !== null && typeof value === "object" && "current" in value) {
             return value.current as EventTarget
         }
         return value
     }
-    if (target && typeof target === "object" && "current" in target) {
+    if (typeof target === "object" && "current" in target) {
         return target.current as EventTarget
     }
     return target
@@ -42,7 +42,7 @@ const getTarget = (target: TargetRef<EventTargetWithRef>): EventTarget => {
 export const useEventListener = <T extends EventTargetWithRef, K extends keyof EventMap<T>>(
     target: TargetRef<T>,
     type: K,
-    handler: (this: T, ev: EventMap<T>[K]) => any,
+    handler: (this: T, ev: EventMap<T>[K]) => void,
     options: EventListenerOptions = {},
 ): void => {
     const callbackRef = useRef<Function>(handler)
@@ -56,7 +56,7 @@ export const useEventListener = <T extends EventTargetWithRef, K extends keyof E
         const isEnabled = enabled instanceof Function ? enabled() : enabled
         if (!isEnabled) return
         const get = getTarget(target)
-        if (!get) return
+        if (get === null) return
 
         const handleListener = (ev: Event) => callbackRef.current(ev)
         get.addEventListener(type as string, handleListener, eventOptions)

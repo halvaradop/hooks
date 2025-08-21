@@ -60,7 +60,7 @@ import type { EventListenerOptions } from "@/types/event-types"
  */
 export const useWindowEventListener = <K extends keyof WindowEventMap>(
     type: K,
-    handler: (this: Window, ev: WindowEventMap[K]) => any,
+    handler: (this: Window, ev: WindowEventMap[K]) => void,
     options?: EventListenerOptions,
 ) => {
     const isSupported = typeof window !== "undefined" && typeof window.addEventListener === "function"

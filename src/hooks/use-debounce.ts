@@ -29,7 +29,7 @@ export const useDebounce = <T>(value: T, delay?: number | null) => {
     const [debouncedValue, setDebouncedValue] = useState(value)
 
     useEffect(() => {
-        if (!delay) return
+        if (delay === undefined || delay === null || isNaN(delay) || delay === 0) return
         const handler = setTimeout(() => {
             setDebouncedValue(value)
         }, delay)

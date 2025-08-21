@@ -24,7 +24,7 @@ export const useOnClickOutside = <T extends HTMLElement>(
     handler: (event: MouseEvent) => void,
 ) => {
     const handleClickOutside = (event: MouseEvent) => {
-        if (target.current && !target.current.contains(event.target as Node)) {
+        if (!target.current.contains(event.target as Node)) {
             handler(event)
         }
     }
