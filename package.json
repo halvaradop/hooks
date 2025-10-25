@@ -49,9 +49,9 @@
       "require": "./dist/hooks/use-copy-to-clipboard.cjs"
     },
     "./use-debounce": {
-      "types": "./dist/use-debounce.d.ts",
-      "import": "./dist/use-debounce.js",
-      "require": "./dist/use-debounce.cjs"
+      "types": "./dist/hooks/use-debounce.d.ts",
+      "import": "./dist/hooks/use-debounce.js",
+      "require": "./dist/hooks/use-debounce.cjs"
     },
     "./use-document-event-listener": {
       "types": "./dist/hooks/use-document-event-listener.d.ts",
@@ -94,14 +94,14 @@
       "require": "./dist/hooks/use-session-storage.cjs"
     },
     "./use-throttle": {
-      "types": "./dist/use-throttle.d.ts",
-      "import": "./dist/use-throttle.js",
-      "require": "./dist/use-throttle.cjs"
+      "types": "./dist/hooks/use-throttle.d.ts",
+      "import": "./dist/hooks/use-throttle.js",
+      "require": "./dist/hooks/use-throttle.cjs"
     },
     "./use-timeout": {
-      "types": "./dist/use-timeout.d.ts",
-      "import": "./dist/use-timeout.js",
-      "require": "./dist/use-timeout.cjs"
+      "types": "./dist/hooks/use-timeout.d.ts",
+      "import": "./dist/hooks/use-timeout.js",
+      "require": "./dist/hooks/use-timeout.cjs"
     },
     "./use-toggle": {
       "types": "./dist/hooks/use-toggle.d.ts",
