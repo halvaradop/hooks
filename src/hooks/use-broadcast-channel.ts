@@ -24,7 +24,7 @@ import type { BroadcastChannelReturn } from "@/types/hook-types"
 export const useBroadcastChannel = <T>(name: string, initialValue?: T): BroadcastChannelReturn<T> => {
     const [state, setState] = useState<T | undefined>(initialValue)
     const broadcastChannel = useRef<BroadcastChannel | undefined>(undefined)
-    const isSupported = typeof window !== "undefined" && "BroadcastChannel" in window
+    const isSupported = "BroadcastChannel" in globalThis.window
 
     const sendMessage = useCallback(
         async (message: T) => {
@@ -32,7 +32,7 @@ export const useBroadcastChannel = <T>(name: string, initialValue?: T): Broadcas
             broadcastChannel.current?.postMessage(message)
             setState(message)
         },
-        [isSupported],
+        [isSupported]
     )
 
     const closeChannel = useCallback(() => {

@@ -36,13 +36,13 @@ const defaultSerializer: StorageSerializer<string> = {
 export const useSessionStorage = <T = string>(
     key: string,
     initialValue?: T,
-    options: UseStorageOptions<T> = {},
+    options: UseStorageOptions<T> = {}
 ): UseSessionStorageReturn<T> => {
     const [storage, setStorage] = useState<T | undefined>(initialValue)
 
     const { withEvent = false, serializer = defaultSerializer } = options
     const { serialize, deserialize } = serializer
-    const isSupported = typeof window !== "undefined" && typeof sessionStorage !== "undefined"
+    const isSupported = typeof sessionStorage !== "undefined"
 
     const setValue = useCallback(
         (value: T | ((previous: undefined | T) => T)) => {
@@ -54,13 +54,13 @@ export const useSessionStorage = <T = string>(
                 return valueToStore
             })
         },
-        [key, serializer],
+        [key, serializer]
     )
 
     const getStorage = useCallback(() => {
         if (!isSupported) return
         const getItem = sessionStorage.getItem(key)
-        let storageValue: T | unknown
+        let storageValue: T | string | undefined
         if (getItem !== null && getItem !== "") {
             storageValue = deserialize(getItem)
         } else {
@@ -88,7 +88,7 @@ export const useSessionStorage = <T = string>(
                 setStorage(newContextValue)
             }
         },
-        [key, deserialize],
+        [key, deserialize]
     )
 
     useEffect(() => {

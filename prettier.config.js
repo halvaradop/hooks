@@ -1,4 +1,2 @@
-import { config } from "@halvaradop/prettier-config"
-
 /** @type {import("prettier").Config} */
-export default config
+export { config as default } from "@halvaradop/prettier-config"

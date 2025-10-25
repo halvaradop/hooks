@@ -22,8 +22,8 @@ import type { UseCopyToClipboardReturn } from "@/types/hook-types"
 export const useCopyToClipboard = (): UseCopyToClipboardReturn => {
     const [copyText, setCopyText] = useState<string | undefined>(undefined)
 
-    const isSupported =
-        typeof window !== "undefined" && typeof navigator !== "undefined" && typeof navigator.clipboard !== "undefined"
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const isSupported = navigator.clipboard !== undefined
 
     const copyToClipboard = useCallback(
         async (text: string) => {
@@ -38,7 +38,7 @@ export const useCopyToClipboard = (): UseCopyToClipboardReturn => {
                 return false
             }
         },
-        [isSupported],
+        [isSupported]
     )
 
     return [copyText, copyToClipboard]
