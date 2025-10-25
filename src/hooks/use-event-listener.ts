@@ -9,7 +9,7 @@ import type { EventTarget, EventTargetWithRef, EventMap, EventListenerOptions, T
  */
 const getTarget = (target: TargetRef<EventTargetWithRef>): EventTarget => {
     if (target === null) return null
-    if (target instanceof Function) {
+    if (typeof target === "function") {
         const value = target()
         if (value !== null && typeof value === "object" && "current" in value) {
             return value.current as EventTarget
@@ -43,7 +43,7 @@ export const useEventListener = <T extends EventTargetWithRef, K extends keyof E
     target: TargetRef<T>,
     type: K,
     handler: (this: T, ev: EventMap<T>[K]) => void,
-    options: EventListenerOptions = {},
+    options: EventListenerOptions = {}
 ): void => {
     const callbackRef = useRef<Function>(handler)
     const { options: eventOptions, deps = [], enabled = false } = options
@@ -53,7 +53,7 @@ export const useEventListener = <T extends EventTargetWithRef, K extends keyof E
     }, [handler])
 
     useEffect(() => {
-        const isEnabled = enabled instanceof Function ? enabled() : enabled
+        const isEnabled = typeof enabled === "function" ? enabled() : enabled
         if (!isEnabled) return
         const get = getTarget(target)
         if (get === null) return

@@ -249,7 +249,7 @@ function Timer() {
     () => {
       setCount(count + 1)
     },
-    isRunning ? 1000 : null,
+    isRunning ? 1000 : null
   ) // Pass null to pause
 
   return (
@@ -278,7 +278,7 @@ function DelayedMessage() {
     () => {
       setMessage("This message appeared after 3 seconds!")
     },
-    isActive ? 3000 : null, // Pass null to pause
+    isActive ? 3000 : null // Pass null to pause
   )
 
   return (

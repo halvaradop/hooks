@@ -37,31 +37,31 @@ const defaultSerializer: StorageSerializer<string> = {
 export const useLocalStorage = <T>(
     key: string,
     initialValue?: T,
-    options: UseStorageOptions<T> = {},
+    options: UseStorageOptions<T> = {}
 ): UseLocalStorageReturn<T> => {
     const [storage, setStorage] = useState<T | undefined>(initialValue)
 
     const { withEvent = false, serializer = defaultSerializer } = options
     const { serialize, deserialize } = serializer
-    const isSupported = typeof window !== "undefined" && typeof localStorage !== "undefined"
+    const isSupported = typeof localStorage !== "undefined"
 
     const setValue = useCallback(
         (value: T | ((previous: undefined | T) => T)) => {
             if (!isSupported) return
             setStorage((previous) => {
                 const valueToStore = value instanceof Function ? value(previous) : value
-                const storageValue = serialize(valueToStore as T as never)
+                const storageValue = serialize(valueToStore as never)
                 localStorage.setItem(key, storageValue)
                 return valueToStore
             })
         },
-        [key, serializer],
+        [key, serializer]
     )
 
     const getStorage = useCallback(() => {
         if (!isSupported) return
         const getItem = sessionStorage.getItem(key)
-        let storageValue: T | unknown
+        let storageValue: T | string | undefined
         if (getItem !== null && getItem !== "") {
             storageValue = deserialize(getItem)
         } else {
@@ -90,7 +90,7 @@ export const useLocalStorage = <T>(
                 setStorage(newContextValue)
             }
         },
-        [key, deserialize],
+        [key, deserialize]
     )
 
     useEffect(() => {

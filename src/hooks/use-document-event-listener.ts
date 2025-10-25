@@ -48,7 +48,7 @@ import type { EventListenerOptions } from "@/types/event-types"
 export const useDocumentEventListener = <K extends keyof DocumentEventMap>(
     type: K,
     event: (this: Document, ev: DocumentEventMap[K]) => void,
-    options?: EventListenerOptions,
+    options?: EventListenerOptions
 ) => {
     const isSupported = typeof document !== "undefined" && typeof document.addEventListener === "function"
     if (!isSupported) return () => {}

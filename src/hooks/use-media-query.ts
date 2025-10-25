@@ -23,11 +23,11 @@ import type { UseMediaQuery } from "@/types/css-types"
  */
 export const useMediaQuery: UseMediaQuery = (mediaQuery) => {
     const [isMatched, setIsMatched] = useState(false)
-    const isSupported = typeof window !== "undefined" && typeof mediaQuery === "string"
+    const isSupported = typeof mediaQuery === "string"
 
     useEffect(() => {
         if (!isSupported) return
-        const mediaQueryList = window.matchMedia(mediaQuery)
+        const mediaQueryList = globalThis.window.matchMedia(mediaQuery)
 
         const handleMediaQuery = (event: MediaQueryListEvent) => {
             setIsMatched(event.matches)

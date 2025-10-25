@@ -20,7 +20,8 @@ import { useWindowEventListener } from "@/hooks/use-window-event-listener"
  * }
  */
 export const useOnlineStatus = (): boolean => {
-    const isSupported = typeof window !== "undefined" && typeof window.navigator !== "undefined"
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const isSupported = navigator !== undefined
     const [isOnline, setIsOnline] = useState(false)
 
     const handleOnlineStatus = useCallback(() => {

@@ -29,7 +29,7 @@ export const useInterval: UseInterval = (callback, delay): void => {
     }, [callback])
 
     useEffect(() => {
-        if (delay === undefined || delay === null || isNaN(delay) || delay === 0) return
+        if (delay === undefined || delay === null || Number.isNaN(delay) || delay === 0) return
 
         const idle = setInterval(() => {
             callbackRef.current()
